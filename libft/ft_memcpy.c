@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   memcpy.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 12:10:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/21 18:14:04 by vifernan         ###   ########.fr       */
+/*   Created: 2021/04/06 16:18:52 by vifernan          #+#    #+#             */
+/*   Updated: 2021/04/13 14:40:17 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include "./libft/libft.h"
+char	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t		i;
+	char		*d;
+	const char	*s;
 
-typedef struct	save{
-	int		number_of_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		must_eat;
-} t_philo;
-
-#endif
+	i = 0;
+	d = dst;
+	s = src;
+	if (d == 0 && s == 0)
+		return (0);
+	while (n--)
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (dst);
+}

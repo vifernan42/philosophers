@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 12:10:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/21 18:14:04 by vifernan         ###   ########.fr       */
+/*   Created: 2021/04/07 11:45:35 by vifernan          #+#    #+#             */
+/*   Updated: 2021/04/13 12:16:03 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include "./libft/libft.h"
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	char		*d;
+	const char	*s;
+	size_t		i;
 
-typedef struct	save{
-	int		number_of_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		must_eat;
-} t_philo;
-
-#endif
+	s = src;
+	d = dst;
+	i = 0;
+	if (d == 0 && s == 0)
+		return (0);
+	if (s > d)
+		ft_memcpy(d, s, len);
+	else
+		while (len--)
+			*((unsigned char *) dst + len) = *((unsigned char *) src + len);
+	return (dst);
+}

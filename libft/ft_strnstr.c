@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 12:10:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/21 18:14:04 by vifernan         ###   ########.fr       */
+/*   Created: 2021/04/07 16:34:20 by vifernan          #+#    #+#             */
+/*   Updated: 2021/04/16 14:04:41 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include "./libft/libft.h"
+char	*ft_strnstr(const char *hay, const char *ne, size_t len)
+{
+	size_t		i;
+	size_t		j;
 
-typedef struct	save{
-	int		number_of_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		must_eat;
-} t_philo;
-
-#endif
+	i = 0;
+	if (ne[i] == '\0')
+		return ((char *) hay);
+	while (hay[i] != '\0')
+	{
+		j = 0;
+		while (hay[i + j] == ne[j] && (i + j) < len)
+		{
+			if (ne[j + 1] == '\0')
+				return ((char *) hay + i);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}

@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 12:10:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/21 18:14:04 by vifernan         ###   ########.fr       */
+/*   Created: 2021/04/12 11:25:37 by vifernan          #+#    #+#             */
+/*   Updated: 2021/04/15 19:43:25 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include "./libft/libft.h"
+char	*ft_strdup(const char *s1)
+{
+	size_t	i;
+	size_t	j;
+	char	*dst;
 
-typedef struct	save{
-	int		number_of_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		must_eat;
-} t_philo;
-
-#endif
+	i = ft_strlen(s1);
+	dst = (char *) malloc(i + 1);
+	if (!dst)
+		return (0);
+	j = 0;
+	while (s1[j] != '\0')
+	{
+		dst[j] = s1[j];
+		j++;
+	}
+	dst[j] = '\0';
+	return (dst);
+}

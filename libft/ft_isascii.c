@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 14:41:05 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/21 15:01:46 by vifernan         ###   ########.fr       */
+/*   Created: 2021/04/08 12:59:47 by vifernan          #+#    #+#             */
+/*   Updated: 2021/04/08 16:05:14 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/time.h>
+#include "libft.h"
 
-int main()
+int	ft_isascii(int c)
 {
-	struct	timeval current_time;
-	gettimeofday(&current_time, NULL);
-	printf("seconds : %ld\n", current_time.tv_sec);
-	printf("microseconds : %ld\n", current_time.tv_usec);
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
 }
