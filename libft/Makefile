@@ -6,7 +6,7 @@
 #    By: vifernan <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 19:55:57 by vifernan          #+#    #+#              #
-#    Updated: 2021/04/21 16:23:15 by vifernan         ###   ########.fr        #
+#    Updated: 2022/02/22 12:56:57 by vifernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,14 +56,14 @@ HEADER	= libft.h
 all: $(NAME)
 
 $(NAME):
-	gcc -c $(CFLAGS) -I $(HEADER) $(SRCS)
-	ar rc $(NAME) $(OBJS)
+	@gcc -c $(CFLAGS) -I $(HEADER) $(SRCS)
+	@ar rc $(NAME) $(OBJS)
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 #    By: vifernan <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 17:42:37 by vifernan          #+#    #+#              #
-#    Updated: 2022/02/21 17:48:22 by vifernan         ###   ########.fr        #
+#    Updated: 2022/02/22 12:54:55 by vifernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,4 +46,4 @@ fclean: clean
 	
 re: fclean all
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re
