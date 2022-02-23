@@ -6,7 +6,7 @@
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 12:07:53 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/22 18:04:47 by vifernan         ###   ########.fr       */
+/*   Updated: 2022/02/23 15:22:26 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,25 @@ time_t	ft_get_time(void)
 void	ft_get_philos_info(t_get *get)
 {
 	int	i;
-	int	j;
 
-	get->philos = malloc(sizeof(t_philos) * get->number_of_philos);
+	get->philo = malloc(sizeof(t_philo) * get->number_of_philos);
 	i = -1;
-	j = 1;
 	while (++i < get->number_of_philos)
-		get->philos[i].each_time = ft_get_time();
+	{
+		//printf("Aquí\n");
+		get->philo[i].each_die = ft_get_time();
+		get->philo[i].num = i + 1;
+		get->philo[i].fork_right = 1;
+		get->philo[i].fork_left = 1;
+		pthread_mutex_init(&get->philo[i].mutex, NULL);
+	}
+	pthread_mutex_init(&get->clock, NULL);
+	get->time = ft_get_time();
 }
 
 int main(int argc, char **argv)
 {
 	t_get get;
-//	time_t	time;
-//	time_t	st_time;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -58,14 +63,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 	ft_save_args(&get, argv, argc);
-	
-	/*st_time = ft_get_time();
-	while (1)
-	{
-		time = ft_get_time();
-		printf("%ld\n", time - st_time);
-		if (time - st_time > s_get.time_to_die)
-			break ;
-	}*/
+	ft_get_philos_info(&get);
+	ft_create_threads(&get);
 	exit (0);
 }

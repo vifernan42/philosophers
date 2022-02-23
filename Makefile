@@ -6,7 +6,7 @@
 #    By: vifernan <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 17:42:37 by vifernan          #+#    #+#              #
-#    Updated: 2022/02/22 12:54:55 by vifernan         ###   ########.fr        #
+#    Updated: 2022/02/23 09:16:33 by vifernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS	= -Wall -Werror -Wextra
 LINK	= -pthread
 
 SRCS	= 	philo.c \
+			do_stuff.c \
 
 OBJS	= $(SRCS:.c=.o)
 CC		= 	gcc
