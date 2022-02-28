@@ -6,7 +6,7 @@
 /*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 12:10:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/23 15:04:18 by vifernan         ###   ########.fr       */
+/*   Updated: 2022/02/28 10:15:39 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 typedef struct	s_philo{
 	time_t			each_die;
 	int				num;
-	int				fork_right;
-	int				fork_left;
+	int				full;
 	pthread_t		thread;
 	pthread_mutex_t	mutex;
 } t_philo;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vifernan <vifernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 12:07:53 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/23 15:22:26 by vifernan         ###   ########.fr       */
+/*   Updated: 2022/02/28 12:48:18 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_save_args(t_get *get, char **argv, int argc)
 {
+	get->index = 0;
 	get->number_of_philos = ft_atoi(argv[1]);
 	if (get->number_of_philos < 1)
 		exit (0);
@@ -42,11 +43,9 @@ void	ft_get_philos_info(t_get *get)
 	i = -1;
 	while (++i < get->number_of_philos)
 	{
-		//printf("Aquí\n");
 		get->philo[i].each_die = ft_get_time();
 		get->philo[i].num = i + 1;
-		get->philo[i].fork_right = 1;
-		get->philo[i].fork_left = 1;
+		get->philo[i].full = 0;
 		pthread_mutex_init(&get->philo[i].mutex, NULL);
 	}
 	pthread_mutex_init(&get->clock, NULL);
