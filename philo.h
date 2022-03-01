@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vifernan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vifernan <vifernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 12:10:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/28 10:15:39 by vifernan         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:40:36 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,31 @@
 #include "./libft/libft.h"
 
 typedef struct	s_philo{
-	time_t			each_die;
-	int				num;
+	time_t			last_meal;
+	int				id;
 	int				full;
 	pthread_t		thread;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	fork_lock;
+	pthread_mutex_t	last_meal_lock;
 } t_philo;
 
-typedef struct	s_get{
+typedef struct	s_data{
 	int				number_of_philos;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				must_eat;
+	int				meals_to_eat;
 	int				index;
-	int				forks;
 	time_t			time;
-	pthread_mutex_t	clock;
+	pthread_mutex_t	eat_lock;
+	pthread_mutex_t	die_lock;
 	t_philo			*philo;
-} t_get;
+} t_data;
 
-void	ft_create_threads(t_get *get);
-void	*ft_lets_eat(void *arg);
-void	ft_save_args(t_get *get, char **argv, int argc);
-time_t	ft_get_time(void);
-void	ft_get_philos_info(t_get *get);
+void	ft_create_threads(t_data *data);
+void	*lets_eat(void *arg);
+void	ft_save_args(t_data *data, char **argv, int argc);
+time_t	get_time(void);
+void	init_philos(t_data *data);
 
 #endif

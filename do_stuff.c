@@ -6,7 +6,7 @@
 /*   By: vifernan <vifernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 09:13:21 by vifernan          #+#    #+#             */
-/*   Updated: 2022/02/28 14:53:15 by vifernan         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:54:32 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,21 @@ void	ft_wait(time_t time_x)
 	time_t	total_time;
 	time_t	time_left;
 
-	total_time = time_x + ft_get_time();
-	time_left = ft_get_time();
+	printf("Ëntra\n");
+	total_time = time_x + get_time();
+	time_left = get_time();
 	while (total_time > time_left)
 	{
 		usleep(60);
-		time_left = ft_get_time();
+		time_left = get_time();
 	}
 }
 
-void	ft_print_it(t_get *get, time_t time_x, int num, int id)
+void	ft_print_it(t_data *data, time_t time_x, int num, int id)
 {
 	time_t	time_tp;
 
-	time_tp = time_x  - get->time;
+	time_tp = time_x  - data->time;
 	if (id == 1)
 		printf("%ld Philo %d has taken a fork\n", time_tp, num);
 	else if (id == 2)
@@ -42,78 +43,88 @@ void	ft_print_it(t_get *get, time_t time_x, int num, int id)
 
 }
 
-void	ft_take_fork(t_get *get, int order,int next)
+void	ft_take_fork(t_data *data, int order,int next)
 {
-	pthread_mutex_lock(&get->philo[order].mutex);
-	pthread_mutex_lock(&get->clock);
-	ft_print_it(get, ft_get_time(), order, 1);
-	pthread_mutex_unlock(&get->clock);
-	pthread_mutex_lock(&get->philo[next].mutex);
-	get->philo[order].each_die = ft_get_time();
-	pthread_mutex_lock(&get->clock);
-	ft_print_it(get, get->philo[order].each_die, order, 1);
-	ft_print_it(get, get->philo[order].each_die, order, 2);
-	pthread_mutex_unlock(&get->clock);
-	ft_wait(get->time_to_eat);
+	pthread_mutex_lock(&data->philo[order].fork_lock);
+	pthread_mutex_lock(&data->eat_lock);
+	ft_print_it(data, get_time(), order, 1);
+	pthread_mutex_unlock(&data->eat_lock);
+	pthread_mutex_lock(&data->philo[next].fork_lock);
+	data->philo[order].last_meal = get_time();
+	pthread_mutex_lock(&data->eat_lock);
+	ft_print_it(data, data->philo[order].last_meal, order, 1);
+	ft_print_it(data, data->philo[order].last_meal, order, 2);
+	pthread_mutex_unlock(&data->eat_lock);
+	ft_wait(data->time_to_eat);
 }
 
-void	ft_sleep(t_get *get, int order, int next, int finish)
+void	ft_sleep(t_data *data, int order, int next, int finish)
 {
-	if (get->must_eat > 0 && finish == get->must_eat)
-		get->philo[order].full = 1;
-	pthread_mutex_unlock(&get->philo[next].mutex);
-	pthread_mutex_unlock(&get->philo[order].mutex);
-	pthread_mutex_lock(&get->clock);
-	ft_print_it(get, ft_get_time(), order, 3);
-	pthread_mutex_unlock(&get->clock);
-	ft_wait(get->time_to_sleep);
-	pthread_mutex_lock(&get->clock);
-	ft_print_it(get, ft_get_time(), order, 4);
-	pthread_mutex_unlock(&get->clock);
+	if (data->meals_to_eat > 0 && finish == data->meals_to_eat)
+		data->philo[order].full = 1;
+	pthread_mutex_unlock(&data->philo[next].fork_lock);
+	pthread_mutex_unlock(&data->philo[order].fork_lock);
+	pthread_mutex_lock(&data->eat_lock);
+	ft_print_it(data, get_time(), order, 3);
+	pthread_mutex_unlock(&data->eat_lock);
+	ft_wait(data->time_to_sleep);
+	pthread_mutex_lock(&data->eat_lock);
+	ft_print_it(data, get_time(), order, 4);
+	pthread_mutex_unlock(&data->eat_lock);
 }
 
 
-void	*ft_lets_eat(void *arg)
+void	*lets_eat(void *arg)
 {
-	t_get	*get;
+	t_data	*data;
 	int		next;
 	int		finish;
 	int		order;
 
-	get = (t_get *) arg;
+	data = (t_data *) arg;
+	order = data->index++;
+	if (order % 2 != 0)
+		ft_wait(data->time_to_eat);
 	finish = 0;
-	order = get->index++;
-	if (order % 2 != 1)
-		ft_wait(get->time_to_eat);
 	while (1)
 	{
-		if (get->must_eat != -1 || get->philo[order].full == 1)
+		printf("full = %d, meals = %d\n", data->philo[order].full, data->meals_to_eat);
+		if (data->meals_to_eat != -1 || data->philo[order].full == 1)
 			break ;
 		else
 		{
-			//printf("n_o_f-> %d | order-> %d\n", get->number_of_philos, order);
-			if (order == get->number_of_philos - 1)
+			if (order == data->number_of_philos - 1)
 				next = 0;
 			else
 				next = order + 1;
-			ft_take_fork(get, order, next);
+			ft_take_fork(data, order, next);
 			finish++;
-			ft_sleep(get, order, next, finish);
+			ft_sleep(data, order, next, finish);
 		}
 	}
 	return (NULL);
 }
 
-void	ft_create_threads(t_get *get)
+/*void	*lets_eat(void *arg)
+{
+	t_philo	*start;
+	t_philo	*next;
+
+	start = (t_philo *) arg;
+}*/
+
+void	ft_create_threads(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (i < get->number_of_philos)
+	i = -1;
+	while (++i < data->number_of_philos)
 	{
-		printf("Cuenta<%d>\n", i);
-		pthread_create(&get->philo[i].thread, NULL, ft_lets_eat, get);
-		pthread_detach(get->philo[i].thread);
-		i++;
+		pthread_create(&data->philo[i].thread, NULL, lets_eat, data);
+		//pthread_detach(data->philo[i].thread);
 	}
+	i = -1;
+	while (++i < data->number_of_philos)
+		pthread_join(data->philo[i].thread, NULL);
+
 }
