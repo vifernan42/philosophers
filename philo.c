@@ -6,7 +6,7 @@
 /*   By: vifernan <vifernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 12:07:53 by vifernan          #+#    #+#             */
-/*   Updated: 2022/03/01 14:47:36 by vifernan         ###   ########.fr       */
+/*   Updated: 2022/03/07 11:50:53 by vifernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_philos(t_data *data)
 		data->philo[i].full = 0;
 		pthread_mutex_init(&data->philo[i].fork_lock, NULL);
 	}
+	pthread_mutex_init(&data->eat_lock, NULL);
 }
 
 int main(int argc, char **argv)
@@ -59,11 +60,9 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 	ft_save_args(&data, argv, argc);
-	data.time = get_time();
 	data.index = 0;
-	pthread_mutex_init(&data.die_lock, NULL);
-	pthread_mutex_init(&data.eat_lock, NULL);
 	init_philos(&data);
+	data.time = get_time();
 	ft_create_threads(&data);
 	exit (0);
 }
