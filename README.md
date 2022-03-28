@@ -1,2 +1,1 @@
 # Philosophers
-/t hol
